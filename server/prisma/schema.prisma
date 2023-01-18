@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto]
+}
+
+model User {
+  id    String       @id @default(uuid())
+  name  String
+  tasks Task[]
+}
+
+model Categorie {
+  id     Int        @id @default(autoincrement())
+  title  String
+  tasks  Task[]
+}
+
+model RecurringInterval {
+  id     Int        @id @default(autoincrement())
+  name  String
+  tasks  Task[]
+}
+
+model Task {
+  id                     Int                   @id @default(autoincrement())
+  name                   String
+  start_date             DateTime              @default(now())
+  categorie_id           Int
+  categorie              Categorie             @relation(fields: [categorie_id], references: [id])
+  recurring_interval_id  Int?
+  recurring_interval     RecurringInterval?    @relation(fields: [recurring_interval_id], references: [id])
+  user_id                String
+  user                   User                  @relation(fields: [user_id], references: [id])
+}

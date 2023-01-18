@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  browser:
+    container_name: sustainable-browser
+    build: client/
+    command: npm run start
+    ports:
+      - 3010:3010
+
+  postgres:
+    container_name: sustainable-postgres
+    image: postgres:14.1-alpine
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: ab1f6hh942sm
+      POSTGRES_USER: sustainable_sql_user
+      POSTGRES_DB: sustainable_db
