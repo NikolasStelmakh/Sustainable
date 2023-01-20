@@ -207,7 +207,9 @@ export default function CreateTaskModal({
 
             const isSubmitDisabled =
               loading ||
-              (hasSubmitErrors && !modifiedSinceLastSubmit) ||
+              creationLoading ||
+              ((hasSubmitErrors || creationError) &&
+                !modifiedSinceLastSubmit) ||
               hasValidationErrors ||
               pristine;
 
